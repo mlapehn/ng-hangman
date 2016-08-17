@@ -1,5 +1,22 @@
 console.log('hangmanGame loaded');
+angular.module("hangmanApp")
+  .controller("HangmanController",HangmanController);
 
+HangmanController.$inject = ["$scope"];
+
+function HangmanController($scope) {
+  $scope = new HangmanGame('elephant');
+  // $scope.triesRemaining = this.triesRemaining;
+  console.log('got into HangmanController');
+  console.log('$scope is '+$scope.triesRemaining);
+  $scope.guessLetter = guessLetter;
+  return $scope;
+
+  function guessLetter(input) {
+    $scope.guess(input);
+    $scope.input = "";
+  }
+}
 // HangmanGame
 // to use:
 // 1. var game = new HangmanGame('supersecretword');
@@ -30,7 +47,7 @@ HangmanGame.prototype.guess = function(guess) {
   } else if (this.gameWon === false) {
     console.log("you have already lost the game");
   } else {
-    console.log("this letter has already been guessed")
+    console.log("this letter has already been guessed");
     return this.isWinner();
   }
   // determine if letter is in word
@@ -65,11 +82,11 @@ HangmanGame.prototype.wordSoFar = function() {
 // determines win/lose status
 HangmanGame.prototype.isWinner = function() {
   if(this.triesRemaining === 0) {
-    console.log("Sorry, you loose.")
+    console.log("Sorry, you lose.");
     this.gameWon = false;
   // user wins if there are no more underscores in word
 } else if( !this.isLetterInWord("_", this.completedWord) ) {
-    console.log("Yay, you win!")
+    console.log("Yay, you win!");
     this.gameWon = true;
   } else {
     this.gameWon = null;
